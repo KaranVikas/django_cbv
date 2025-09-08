@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Articles{% endblock %}
+{% block content %}
+<h1>Articles</h1>
+
+<form method="get">
+  <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search title...">
+  <button type="submit">Search</button>
+</form>
+
+<ul>
+  {% for article in object_list %}
+    <li>
+      <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+      — by {{ article.owner }} ({{ article.created|date:"Y-m-d H:i" }})
+    </li>
+  {% empty %}
+    <li>No articles yet.</li>
+  {% endfor %}
+</ul>
+
+{% if is_paginated %}
+  <div>
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}">Prev</a>
+    {% endif %}
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}">Next</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}
