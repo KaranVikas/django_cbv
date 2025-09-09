@@ -40,7 +40,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     messages.success(self.request, "Article created.")
     return super().form_valid(form)
   
-class ArticleDeleteView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
   model = Article
   from_class = ArticleForm
   

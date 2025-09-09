@@ -41,9 +41,9 @@ INSTALLED_APPS = [
 ]
 
 # TEMPLATES[0]["DIRS"] = [BASE_DIR / "templates"]
-# LOGIN_URL = "login"
-# LOGIN_REDIRECT_URL = "article-list"
-# LOGOUT_REDIRECT_URL = "login"
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "article-list"
+LOGOUT_REDIRECT_URL = "login"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -60,7 +60,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [ BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
