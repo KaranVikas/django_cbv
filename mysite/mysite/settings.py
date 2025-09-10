@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "articles"
+    "articles",
+    "rest_framework",
+    "drf_spectacular"
 ]
 
 # TEMPLATES[0]["DIRS"] = [BASE_DIR / "templates"]
@@ -85,6 +87,28 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+  "DEFAULT_SCHEMA":"drf_spectacular.openapi.AutoSchema",
+  "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+  "DEFAULT_AUTHENTICATION_CLASSES":[
+    "rest_framework.authentication.SessionAuthentication",
+    "rest_framework.authentication.BasicAuthentication",
+  ],
+  "DEFAULT_PERMISSION_CLASSES":[
+    "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+  ],
+  "DEFAULT_PAGINATION_CLASSES":"rest_framework.pagination.PageNumberPagination",
+  "PAGE_SIZE":10,
+  
+}
+
+SPECTULAR_SETTINGS = {
+  "TITLE":"MySite API",
+  "DESCRIPTION":"Articles CRUD with authenticated create/update/delete.",
+  "VERSION":"1.0.0",
+  "SERVE_INCLUDE_SCHEMA":False,
+  "COMPONENT_SPLIT_REQUEST": True,
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

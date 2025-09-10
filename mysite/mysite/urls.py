@@ -16,13 +16,26 @@ Including another URLconf
 """
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
+from rest_framework.routers import DefaultRouter
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from articles.api import ArticleViewSet
+
+
+router = DefaultRouter()
+router.register("api/articles", ArticleViewSet, basename="article")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("articles.urls")),
     path("accounts/login", auth_views.LoginView.as_view(template_name="accounts/login.html"),name='login'), 
     path("accounts/", include("django.contrib.auth.urls")),
-]
+   # OpenAPI schema (JSON)
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+
+    # Optional UIs
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+] + router.urls
 
 

@@ -31,6 +31,7 @@ class OwnerRequiredMixin(UserPassesTestMixin):
   
 class ArticleCreateView(LoginRequiredMixin, CreateView):
   model = Article
+  fields = ["title","body"]
   form_class = ArticleForm
 
   #success_url optional ; CBV will use get_absolute_url by default
@@ -42,10 +43,12 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
   
 class ArticleUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
   model = Article
+  fields = ["title","body"]
   from_class = ArticleForm
   
   def form_valid(self, form):
-    messages.success(self.request, "Article updated. ")
+    # form.instance.owner = self.request.user
+    messages.success(self.request, "Article updated.")
     return super().form_valid(form)
   
 class ArticleDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
