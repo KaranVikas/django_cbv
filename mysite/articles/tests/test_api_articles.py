@@ -88,6 +88,54 @@ class TestArticleListCreate(BaseAPITestCase):
 
     get_resp = self.client.get(self.api_detail_url(resp.data["slug"]), **self.lang_hdr)
     self.assertEqual(get_resp.status_code, status.HTTP_200_OK)
-    
 
 
+
+class TestArticleRetreiveUpdateDelete(BaseAPITestCase):
+  """
+  Group: /api/articles/{slug} {get retrieve , PATCH update, DELETE destroy}
+  Covers: 
+  - retrieve 200 and 404
+  - owner-only patch/delete (403 for non-owner)
+  - patch returns updated data; delete returns  204
+  """
+
+  def setUp(self):
+    super().setUp()
+    self.article = self.make_article(owner=self.user, title="Editable Title")
+
+  def test_should_retrieve_article_by_slug(self):
+    url = self.api_detail_url(self.article.slug)
+    resp = self.client.get(url, **self.land_hrd, **self.trace_hdr)
+    self.assertEqual(resp.status_code, status.HTTP_200_OK)
+    self.assertEqual(resp.data["title"],"Editable Title")
+
+  def test_should_return_404_when_slug_not_found(self):
+    url = self.api_detail_url("no-such-article")
+    resp = self.client.get(url, **self.lang_hdr)
+    self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+  def test_should_patch_article_when_owner(self):
+    url = self.api_detail_url(self.article.slug)
+    self.client.force_authenticate(user=self.user)
+    resp = self.client.patch(url, {'title':'New Title'}, format="json",**self.lang_hdr)
+    self.assertEqual(resp.status_code, status.HTTP_200_OK)
+    self.assertEqual(resp.data['title'],"New Title")
+
+  def test_should_forbid_patch_when_not_owner(self):
+    url = self.api_detail_url(self.article.slug)
+    self.client.force_authenticate(user=self.other_user)
+    resp = self.client.patch(url, {'title':'Hack'}, format="json" , **self.lang_hdr)
+    self.assertEqual(resp.status_code, status.HTTP_403_FORBIDDEN)
+
+
+  def test_should_delete_article_when_owner(self):
+    url = self.api_detail_url(self.article.slug)
+    self.client.force_authenticate(user=self.user)
+    resp = self.client.delete(url, **self.lang_hdr)
+    self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+    # verify its gone
+    get_resp = self.client.get(url, **self.lang_hdr)
+    self.assertEqual(get_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+  
