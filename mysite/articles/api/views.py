@@ -89,7 +89,7 @@ class ArticleViewSet(
   def get_queryset(self):
     qs = Article.objects.select_related("owner").order_by("-created")
     q = self.request.query_params.get("q")
-    return qs.filter(title_icontains=q) if q else qs
+    return qs.filter(title__icontains=q) if q else qs
 
   def get_serializer_class(self):
     if self.action == 'create':

@@ -15,7 +15,7 @@ class ArticleListView(ListView):
   def get_queryset(self):
     qs = super().get_queryset().select_related("owner")
     q = self.request.GET.get("q")
-    return qs.filter(title_icontains=q) if q else qs
+    return qs.filter(title__icontains=q) if q else qs
 
 class ArticleDetailView(DetailView):
   model = Article
