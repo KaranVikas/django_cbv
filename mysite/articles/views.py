@@ -47,7 +47,7 @@ class ArticleUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
   from_class = ArticleForm
   
   def form_valid(self, form):
-    # form.instance.owner = self.request.user
+    form.instance.owner = self.request.user
     messages.success(self.request, "Article updated.")
     return super().form_valid(form)
   
@@ -57,4 +57,4 @@ class ArticleDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
 
   def delete(self, request, *args, **kwargs):
     messages.success(self.request, "Article deleted.")
-    return super().delete(request, *args **kwargs)
+    return super().delete(request, *args, **kwargs)
