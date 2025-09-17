@@ -3,6 +3,7 @@ from articles.models import Article
 
 class ArticleSerializer(serializers.ModelSerializer):
   owner = serializers.StringRelatedField(read_only=True)
+  slug = serializers.CharField(read_only=True)
 
   class Meta:
     model = Article

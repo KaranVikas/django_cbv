@@ -84,7 +84,8 @@ class ArticleViewSet(
 
   permission_classes = [IsAuthenticatedOrReadOnly, isOwnerOrReadOnly]
   serializer_class = ArticleSerializer
-  look_field = "slug"
+  lookup_field = "slug"
+  lookup_url_kwarg = "slug"
 
   def get_queryset(self):
     qs = Article.objects.select_related("owner").order_by("-created")

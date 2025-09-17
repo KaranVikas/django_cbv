@@ -7,8 +7,8 @@
 
 {% if user == object.owner %}
   <p>
-    <a href="{% url 'article-update' slug=object.slug %}">Edit</a> |
-    <a href="{% url 'article-delete' slug=object.slug %}">Delete</a>
+    <a href="{% url 'web-article-update' slug=object.slug %}">Edit</a> |
+    <a href="{% url 'web-article-delete' slug=object.slug %}">Delete</a>
   </p>
 {% endif %}
 {% endblock %}
