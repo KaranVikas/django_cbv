@@ -35,7 +35,6 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
   form_class = ArticleForm
 
   #success_url optional ; CBV will use get_absolute_url by default
-
   def form_valid(self, form):
     form.instance.owner = self.request.user
     messages.success(self.request, "Article created.")

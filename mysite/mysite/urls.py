@@ -28,7 +28,7 @@ router.register("api/articles", ArticleViewSet, basename="article")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("articles/", include("articles.urls")),
-    path("accounts/login", auth_views.LoginView.as_view(template_name="accounts/login.html"),name='login'), 
+    path("accounts/login", auth_views.LoginView.as_view(template_name="registration/login.html"),name='login'),
     path("accounts/", include("django.contrib.auth.urls")),
    # OpenAPI schema (JSON)
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
